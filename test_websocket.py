@@ -5,11 +5,13 @@
 Tests for L{twisted.web.websocket}.
 """
 import base64
+from cStringIO import StringIO
 from hashlib import sha1
 
 from twisted.internet.main import CONNECTION_DONE
 from twisted.internet.error import ConnectionDone
 from twisted.python.failure import Failure
+from zope.interface import implements
 
 from websocket import WebSocketHandler, WebSocketFrameDecoder
 from websocket import WebSocketHybiFrameDecoder
@@ -19,9 +21,52 @@ from websocket import DecodingError, OPCODE_PING, OPCODE_TEXT
 from twisted.web.resource import Resource
 from twisted.web.server import Request, Site
 from twisted.web.test.test_web import DummyChannel
+from twisted.internet.address import IPv4Address
+from twisted.internet import interfaces
+from twisted.web import server, resource
 from twisted.trial.unittest import TestCase
 
 
+class DummyChannel(DummyChannel):
+    class TCP:
+        port = 80
+        disconnected = False
+
+        def __init__(self):
+            self.written = StringIO()
+            self.producers = []
+
+        def getPeer(self):
+            return IPv4Address("TCP", '192.168.1.1', 12344)
+
+        def write(self, bytes):
+            assert isinstance(bytes, str)
+            self.written.write(bytes)
+
+        def writeSequence(self, iovec):
+            map(self.write, iovec)
+
+        def getHost(self):
+            return IPv4Address("TCP", '10.0.0.1', self.port)
+
+        def registerProducer(self, producer, streaming):
+            self.producers.append((producer, streaming))
+
+        def loseConnection(self):
+            self.disconnected = True
+
+    class SSL(TCP):
+       implements(interfaces.ISSLTransport)
+
+
+    site = server.Site(resource.Resource())
+
+    def __init__(self):
+        self.transport = self.TCP()
+
+
+    def requestDone(self, request):
+        pass
 
 class DummyChannel(DummyChannel):
     """
