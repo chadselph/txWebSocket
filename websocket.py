@@ -151,6 +151,8 @@ class WebSocketRequest(Request):
     ACCEPT_GUID = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
 
     # this is backported from twisted 10.2.0
+    content = None
+
     def connectionLost(self, reason):
         """
         There is no longer a connection for this request to respond over.
