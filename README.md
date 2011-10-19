@@ -14,15 +14,11 @@ Notes
 =====
 
 This code is based off the associated branch for
-http://twistedmatrix.com/trac/ticket/4173, and includes support for the new
-`"hixie-76"` handshake (http://www.whatwg.org/specs/web-socket-protocol/) which
-is the latest draft as of June 17, 2010.
-
-The difference between this and what may actually be included in Twisted is
-that this version contains definite backwards-support for `hixie-75`, and will
-track the latest standard as fast as I can implement it. That means that this
-server should work with Chrome 5, Safari 5 and the latest development version
-of Chrome 6.
+http://twistedmatrix.com/trac/ticket/4173, and includes support for the follwoing handshakes:
+* [`hixie-75`]: Safari 5
+* [`hixie-76`/`hybi-00`](http://tools.ietf.org/html/draft-hixie-thewebsocketprotocol-76): (Chrome 4 - Chrome 13)
+* [`hybi-08` - `hybi-12`](http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol-10): (Chrome 14, 15)
+* [`hybi-13` - `hybi-16`](http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol-16): (Chrome 16)
 
 Thanks to work by [wulczer](https://github.com/wulczer/txWebSocket) this library
 also supported the `"hybi-10"` protocol (http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol-10)
