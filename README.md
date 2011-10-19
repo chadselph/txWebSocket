@@ -15,10 +15,11 @@ Notes
 
 This code is based off the associated branch for
 http://twistedmatrix.com/trac/ticket/4173, and includes support for the follwoing handshakes:
-* [`hixie-75`]: Safari 5
-* [`hixie-76`/`hybi-00`](http://tools.ietf.org/html/draft-hixie-thewebsocketprotocol-76): (Chrome 4 - Chrome 13)
-* [`hybi-08` - `hybi-12`](http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol-10): (Chrome 14, 15)
-* [`hybi-13` - `hybi-16`](http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol-16): (Chrome 16)
+
+* `hixie-75`: Safari 5
+* [`hixie-76` / `hybi-00`](http://tools.ietf.org/html/draft-hixie-thewebsocketprotocol-76): Chrome 4 - Chrome 13
+* [`hybi-08` - `hybi-12`](http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol-12): Chrome 14, 15
+* [`hybi-13` - `hybi-16`](http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol-16): Chrome 16
 
 Thanks to work by [wulczer](https://github.com/wulczer/txWebSocket) this library
 also supported the `"hybi-10"` protocol (http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol-10)
