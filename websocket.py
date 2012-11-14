@@ -170,10 +170,10 @@ class WebSocketRequest(Request):
         connection = self.requestHeaders.getRawHeaders("Connection", [None])[0]
         upgrade = self.requestHeaders.getRawHeaders("Upgrade", [None])[0]
 
-        if not connection or "Upgrade" not in connection:
+        if not connection or "upgrade" not in connection.lower():
             return Request.process(self)
 
-        if upgrade not in ("WebSocket", "websocket"):
+        if not upgrade or upgrade.lower() != "websocket":
             return Request.process(self)
 
         return self.processWebSocket()
@@ -373,10 +373,10 @@ class WebSocketRequest(Request):
         plugged in and the connection will be estabilished.
         """
         version = self._getOneHeader("Sec-WebSocket-Version")
-        # we only speak version 8 and 13 of the protocol
-        if version not in ("8", "13"):
+        # we only speak version 7, 8 and 13 of the protocol
+        if version not in ("7", "8", "13"):
             self.setResponseCode(426, "Upgrade Required")
-            self.setHeader("Sec-WebSocket-Version", "8")
+            self.setHeader("Sec-WebSocket-Version", "7")
             return self.finish()
 
         key = self._getOneHeader("Sec-WebSocket-Key")
@@ -639,7 +639,8 @@ class WebSocketHybiTransport(WebSocketTransport):
 
         data.append(length)
         header = struct.pack(spec, *data)
-        self._request.write(header + payload)
+        if self._connected:
+            self._request.write(header + payload)
 
 
 class WebSocketHandler(object):
